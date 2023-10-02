@@ -39,8 +39,8 @@ public class Player {
         return this.die;
     }
 
-    public void increaseScore() {
-        this.score += 1;
+    public void increaseScore(int scoreToAdd) {
+        this.score += scoreToAdd;
     }
 
     public int getScore() {
