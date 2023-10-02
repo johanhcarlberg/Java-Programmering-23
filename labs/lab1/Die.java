@@ -5,12 +5,9 @@ public class Die {
     private Random random;
     private int currentValue;
 
-    public Die(int sides) throws IllegalArgumentException {
-        if (sides < 1) {
-            throw new IllegalArgumentException("Number of sides must be greater than 0, sides: " + sides);
-        }
+    public Die(int sides) {
         this.sides = sides;
-        this.random = new Random(System.currentTimeMillis());
+        this.random = new Random();
         this.roll();
     }
 
