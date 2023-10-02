@@ -28,11 +28,25 @@ public class MultiplayerDiceGame {
             System.out.println("Turn " + currentTurn + "/" + numTurns);
             takeTurn(players);
 
-            ArrayList<Player> winners = getWinners(players);
-            for (Player winner : winners) {
-                winner.increaseScore();
+            players.forEach(p -> System.out.println(p));
+        }
+
+        ArrayList<Player> winners = getWinners(players);
+        System.out.println("Game over!");
+        if (winners.size() == 1) {
+            System.out.println(winners.get(0).getName() + " wins!");
+        } else {
+            for(int i = 0; i < winners.size(); i++) {
+                if (i == winners.size() - 1) {
+                    System.out.print(winners.get(i).getName() + " wins!\n");
+                } else if(i == winners.size() - 2) {
+                    System.out.print(winners.get(i).getName() + " & ");
+                } else {
+                    System.out.print(winners.get(i).getName() + ", ");
+                }
             }
         }
+        
 
         scanner.close();
     }
@@ -58,21 +72,22 @@ public class MultiplayerDiceGame {
             System.out.println("Rolling dice for player " + player.getName());
             player.rollDice();
             System.out.println("Player dice value: " + player.getDiceValue());
+            player.increaseScore(player.getDiceValue());
         }
     }
 
     private static ArrayList<Player> getWinners(ArrayList<Player> players) {
         ArrayList<Player> winners = new ArrayList<>();
-        int maxDiceValue = 0;
+        int maxScore = 0;
         for (Player player : players) {
-            int playerDiceValue = player.getDiceValue();
-            if (playerDiceValue > maxDiceValue) {
-                maxDiceValue = playerDiceValue;
+            int playerScore = player.getScore();
+            if (playerScore > maxScore) {
+                maxScore = playerScore;
             }
         }
 
         for (Player player : players) {
-            if(player.getDiceValue() == maxDiceValue) {
+            if(player.getScore() == maxScore) {
                 winners.add(player);
             }
         }
