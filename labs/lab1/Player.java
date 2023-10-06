@@ -3,11 +3,7 @@ public class Player {
     private String name;
     private int score;
 
-    public Player(String name) throws IllegalArgumentException {
-        if (name == "") {
-            throw new IllegalArgumentException("Name cannot be empty string");
-        }
-        
+    public Player(String name) {
         this.name = name;
         this.score = 0;
     }
