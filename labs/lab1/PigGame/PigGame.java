@@ -4,48 +4,27 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PigGame {
+    private static final int MAX_SCORE = 40;
+
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Player> players = initalize(scanner);
-        System.out.println("Enter number of dice per player:");
-        int numDice = scanner.nextInt();
-        scanner.nextLine();
 
-        System.out.println("Enter number of sides per die:");
-        int numSides = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Enter number of turns:");
-        int numTurns = scanner.nextInt();
-        scanner.nextLine();
-
-        for(Player player : players) {
-            player.addDice(numSides, numDice);
+        for (Player player : players) {
+            player.addDice(6, 1);
         }
 
-        for(int currentTurn = 1; currentTurn <= numTurns; currentTurn++) {
-            System.out.println("Turn " + currentTurn + "/" + numTurns);
-            takeTurn(players);
-
-            players.forEach(p -> System.out.println(p));
-        }
-
-        ArrayList<Player> winners = getWinners(players);
-        System.out.println("Game over!");
-        if (winners.size() == 1) {
-            System.out.println(winners.get(0).getName() + " wins!");
-        } else {
-            for(int i = 0; i < winners.size(); i++) {
-                if (i == winners.size() - 1) {
-                    System.out.print(winners.get(i).getName() + " wins!\n");
-                } else if(i == winners.size() - 2) {
-                    System.out.print(winners.get(i).getName() + " & ");
-                } else {
-                    System.out.print(winners.get(i).getName() + ", ");
+        while (getWinners(players).size() == 0) {
+            for (Player player : players) {
+                takeTurn(player, scanner);
+                if (getWinners(players).size() > 0) {
+                    break;
                 }
             }
         }
-        
+
+        System.out.println("Game over!");
+        System.out.println(getWinners(players).get(0).getName() + " wins!");
 
         scanner.close();
     }
@@ -55,9 +34,9 @@ public class PigGame {
         System.out.println("Enter number of players:");
         int numPlayers = scanner.nextInt();
         scanner.nextLine();
-        
-        for(int i = 0; i < numPlayers; i++) {
-            System.out.println("Enter player name for player " + (i+1) + ":");
+
+        for (int i = 0; i < numPlayers; i++) {
+            System.out.println("Enter player name for player " + (i + 1) + ":");
             String playerName = scanner.nextLine();
             Player player = new Player(playerName);
             players.add(player);
@@ -66,28 +45,45 @@ public class PigGame {
         return players;
     }
 
-    private static void takeTurn(ArrayList<Player> players) throws InterruptedException {
-        for (Player player : players) {
+    private static void takeTurn(Player player, Scanner scanner) throws InterruptedException {
+        while (true) {
             System.out.println("Rolling dice for player " + player.getName());
             player.rollDice();
             System.out.println("Player dice value: " + player.getDiceValue());
+
+            if (player.getDiceValue() == 1) {
+                player.setScore(0);
+                return;
+            }
+
             player.increaseScore(player.getDiceValue());
+            System.out.println("Player score: " + player.getScore());
+            if (player.getScore() >= MAX_SCORE) {
+                return;
+            }
+
+            System.out.println("Continue?");
+            String continueInput;
+            while (true) {
+                continueInput = scanner.nextLine().toLowerCase();
+                if (continueInput.equals("y")) {
+                    break;
+                }
+
+                if (continueInput.equals("n")) {
+                    return;
+                }
+            }
         }
     }
 
     private static ArrayList<Player> getWinners(ArrayList<Player> players) {
         ArrayList<Player> winners = new ArrayList<>();
-        int maxScore = 0;
         for (Player player : players) {
             int playerScore = player.getScore();
-            if (playerScore > maxScore) {
-                maxScore = playerScore;
-            }
-        }
-
-        for (Player player : players) {
-            if(player.getScore() == maxScore) {
+            if (playerScore >= MAX_SCORE) {
                 winners.add(player);
+                return winners;
             }
         }
 
