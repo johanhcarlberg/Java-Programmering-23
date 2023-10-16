@@ -47,6 +47,10 @@ public class Player {
         return this.score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public String getName() {
         return this.name;
     }
