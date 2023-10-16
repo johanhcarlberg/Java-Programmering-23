@@ -62,7 +62,7 @@ public class PigGame {
                 return;
             }
 
-            System.out.println("Continue?");
+            System.out.println("Continue (y/n)?");
             String continueInput;
             while (true) {
                 continueInput = scanner.nextLine().toLowerCase();
