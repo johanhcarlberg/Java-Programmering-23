@@ -26,8 +26,9 @@ public class MultiplayerDiceGame {
         for(int currentTurn = 1; currentTurn <= numTurns; currentTurn++) {
             System.out.println("Turn " + currentTurn + "/" + numTurns);
             takeTurn(players);
-
+            
             players.forEach(p -> System.out.println(p));
+            scanner.nextLine();
         }
 
         ArrayList<Player> winners = getWinners(players);
