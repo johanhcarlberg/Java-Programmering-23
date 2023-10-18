@@ -2,7 +2,6 @@ package MultiplayerDiceGame;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class MultiplayerDiceGame {
     public static void main(String[] args) throws InterruptedException {
