@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Player {
     private ArrayList<Die> dice;
-    private Die die;
     private String name;
     private int score;
 
@@ -33,10 +32,6 @@ public class Player {
         }
         
         return diceSum;
-    }
-
-    public Die getDie() {
-        return this.die;
     }
 
     public void increaseScore(int scoreToAdd) {
